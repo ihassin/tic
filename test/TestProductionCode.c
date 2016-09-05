@@ -214,3 +214,41 @@ TEST(ProductionCode, TestAboutToWinBoardCross5)
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 1));
 }
+
+TEST(ProductionCode, TestWeight)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+
+    location = GetWeight(board);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 1) && (location->col == 1));
+}
+
+TEST(ProductionCode, TestWeightAfterPlacement)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 1, 1);
+
+    location = GetWeight(board);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE(board->weight[1][1] == 0);
+}
+
+TEST(ProductionCode, TestNextMove)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 1, 1);
+
+    location = GetWeight(board);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 0) && (location->col == 0));
+}

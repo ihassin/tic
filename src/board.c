@@ -23,16 +23,41 @@ void InitBoard(Board *board)
         }
     }
     board->weight[0][0] = 3;
+    board->weight[0][1] = 2;
     board->weight[0][2] = 3;
-    board->weight[2][0] = 3;
-    board->weight[2][2] = 3;
 
-    board->weight[0][1] = 1;
-    board->weight[1][0] = 1;
-    board->weight[1][2] = 1;
-
-    board->weight[2][1] = 1;
+    board->weight[1][0] = 2;
     board->weight[1][1] = 4;
+    board->weight[1][2] = 2;
+
+    board->weight[2][0] = 3;
+    board->weight[2][1] = 2;
+    board->weight[2][2] = 3;
+}
+
+Location *GetWeight(Board *board)
+{
+    int max_weight = 0;
+    int last_row = -1;
+    int last_col = -1;
+
+    assert(board);
+    for(int row = 0; row < BOARD_ROWS; row++)
+    {
+        for(int col = 0; col < BOARD_COLS; col++)
+        {
+            if(board->weight[row][col] > max_weight)
+            {
+                max_weight = board->weight[row][col];
+                last_col = col;
+                last_row = row;
+            }
+        }
+    }
+    Location *loc = malloc(sizeof(Location));
+    loc->row = last_row;
+    loc->col = last_col;
+    return(loc);
 }
 
 void PlaceBoard(Board *board, int status, int row, int col)
@@ -44,6 +69,7 @@ void PlaceBoard(Board *board, int status, int row, int col)
     assert(col < BOARD_COLS);
 
     board->board[row][col] = status;
+    board->weight[row][col] = 0;
 }
 
 int BoardWin(Board *board, int status)

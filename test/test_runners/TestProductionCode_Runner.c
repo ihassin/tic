@@ -18,4 +18,7 @@ TEST_GROUP_RUNNER(ProductionCode)
     RUN_TEST_CASE(ProductionCode, TestAboutToWinBoardCross3);
     RUN_TEST_CASE(ProductionCode, TestAboutToWinBoardCross4);
     RUN_TEST_CASE(ProductionCode, TestAboutToWinBoardCross5);
+    RUN_TEST_CASE(ProductionCode, TestWeight);
+    RUN_TEST_CASE(ProductionCode, TestWeightAfterPlacement);
+    RUN_TEST_CASE(ProductionCode, TestNextMove);
 }

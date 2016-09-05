@@ -19,5 +19,6 @@ void InitBoard(Board *board);
 void PlaceBoard(Board *board, int status, int row, int col);
 int BoardWin(Board *board, int status);
 Location *AboutToWin(Board *board, int status);
+Location *GetWeight(Board *board);
 
 #endif //TIC_BOARD_H
