@@ -1,46 +1,62 @@
-#include "ProductionCode.h"
+#include <assert.h>
+
 #include "unity.h"
 #include "unity_fixture.h"
 
-TEST_GROUP(ProductionCode);
+#include "ProductionCode.h"
 
-//sometimes you may want to get at local data in a module.
-//for example: If you plan to pass by reference, this could be useful
-//however, it should often be avoided
-extern int Counter;
+TEST_GROUP(ProductionCode);
 
 TEST_SETUP(ProductionCode)
 {
-  //This is run before EACH TEST
-  Counter = 0x5a5a;
 }
 
 TEST_TEAR_DOWN(ProductionCode)
 {
 }
 
-TEST(ProductionCode, FindFunction_WhichIsBroken_ShouldReturnZeroIfItemIsNotInList_WhichWorksEvenInOurBrokenCode)
+TEST(ProductionCode, TestMakeBoard)
 {
-  //All of these should pass
-  TEST_ASSERT_EQUAL(0, FindFunction_WhichIsBroken(78));
-  TEST_ASSERT_EQUAL(0, FindFunction_WhichIsBroken(1));
-  TEST_ASSERT_EQUAL(0, FindFunction_WhichIsBroken(33));
-  TEST_ASSERT_EQUAL(0, FindFunction_WhichIsBroken(999));
-  TEST_ASSERT_EQUAL(0, FindFunction_WhichIsBroken(-1));
+    Board *board = MakeBoard();
+    TEST_ASSERT_NOT_NULL(board);
 }
 
-TEST(ProductionCode, FunctionWhichReturnsLocalVariable_ShouldReturnTheCurrentCounterValue)
+TEST(ProductionCode, TestInitBoard)
 {
-    //This should be true because setUp set this up for us before this test
-    TEST_ASSERT_EQUAL_HEX(0x5a5a, FunctionWhichReturnsLocalVariable());
-
-    //This should be true because we can still change our answer
-    Counter = 0x1234;
-    TEST_ASSERT_EQUAL_HEX(0x1234, FunctionWhichReturnsLocalVariable());
+    Board *board = MakeBoard();
+    InitBoard(board);
+    for(int rows = 0; rows < BOARD_ROWS; rows++)
+    {
+        for(int cols = 0; cols < BOARD_COLS; cols++)
+        {
+            TEST_ASSERT(board->board[rows][cols] == 0);
+        }
+    }
 }
 
-TEST(ProductionCode, FunctionWhichReturnsLocalVariable_ShouldReturnTheCurrentCounterValueAgain)
+TEST(ProductionCode, TestPlaceBoard)
 {
-    //This should be true again because setup was rerun before this test (and after we changed it to 0x1234)
-    TEST_ASSERT_EQUAL_HEX(0x5a5a, FunctionWhichReturnsLocalVariable());
+    Board *board = MakeBoard();
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    TEST_ASSERT(board->board[0][0] == 1);
+}
+
+TEST(ProductionCode, TestWinBoard)
+{
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 0, 1);
+    PlaceBoard(board, 1, 0, 2);
+
+    TEST_ASSERT_TRUE(BoardWin(board, 1));
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 1, 0);
+    PlaceBoard(board, 1, 1, 1);
+    PlaceBoard(board, 1, 1, 2);
+
+    TEST_ASSERT_TRUE(BoardWin(board, 1));
 }

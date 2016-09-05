@@ -1,3 +1,3 @@
-
-int FindFunction_WhichIsBroken(int NumberToFind);
-int FunctionWhichReturnsLocalVariable(void);
+#ifndef TIC_BOARD_H
+#include "Board.h"
+#endif
