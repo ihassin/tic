@@ -32,6 +32,7 @@ void InitBoard(Board *board)
     board->weight[1][2] = 1;
 
     board->weight[2][1] = 1;
+    board->weight[1][1] = 4;
 }
 
 void PlaceBoard(Board *board, int status, int row, int col)
