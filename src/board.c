@@ -299,17 +299,18 @@ Location *Move(Board *board, int status)
 int PlayProgrammatic(int player)
 {
     assert(player == 1 || player == 2);
+    Location *location = 0x01;
     Board *board = MakeBoard();
 
     InitBoard(board);
 
-    while(!BoardFull(board)) {
+    while(!BoardFull(board) && location) {
         for(int idx = 1; idx <= 2; idx++) {
             if(BoardWin(board, idx)) {
                 return(idx);
             }
         }
-        (void) Move(board, (player == 1) ? 2 : 1);
+        location = Move(board, (player == 1) ? 2 : 1);
     }
     return(0);
 }
