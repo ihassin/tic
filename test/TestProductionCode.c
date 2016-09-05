@@ -80,6 +80,20 @@ TEST(ProductionCode, TestWinBoard)
     TEST_ASSERT_TRUE(BoardWin(board, 1));
 }
 
+TEST(ProductionCode, TestAboutToWin)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 0, 1);
+    PlaceBoard(board, 2, 0, 2);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NULL(location);
+}
+
 TEST(ProductionCode, TestAboutToWinBoardRow0)
 {
     Location *location = NULL;
@@ -234,6 +248,75 @@ TEST(ProductionCode, TestAboutToWinBoardCross5)
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 1));
 }
 
+TEST(ProductionCode, TestAboutToWinFail1)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 2, 0, 0);
+    PlaceBoard(board, 2, 2, 0);
+    PlaceBoard(board, 1, 0, 2);
+    PlaceBoard(board, 1, 1, 0);
+    PlaceBoard(board, 1, 1, 1);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_TRUE((location->row == 1) && (location->col == 2));
+}
+
+TEST(ProductionCode, TestAboutToWinFail2)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 2);
+    PlaceBoard(board, 1, 1, 0);
+    PlaceBoard(board, 1, 1, 1);
+
+    PlaceBoard(board, 2, 0, 0);
+    PlaceBoard(board, 2, 2, 0);
+
+    location = AboutToWin(board, 2);
+    TEST_ASSERT_NULL(location);
+}
+
+TEST(ProductionCode, TestAboutToWinFail3)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 0, 2);
+
+    PlaceBoard(board, 2, 0, 1);
+    PlaceBoard(board, 2, 1, 1);
+
+    location = AboutToWin(board, 2);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 2) && (location->col == 1));
+}
+
+TEST(ProductionCode, TestMove2Fail)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 2);
+    PlaceBoard(board, 1, 1, 0);
+    PlaceBoard(board, 1, 1, 1);
+
+    PlaceBoard(board, 2, 0, 0);
+    PlaceBoard(board, 2, 2, 0);
+
+    location = Move(board, 2);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 1) && (location->col == 2));
+}
+
 TEST(ProductionCode, TestWeight1)
 {
     Location *location = NULL;
@@ -332,36 +415,30 @@ TEST(ProductionCode, TestMove2)
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 0));
 }
 
-TEST(ProductionCode, TestPlay)
+TEST(ProductionCode, TestMove3)
 {
     Location *location = NULL;
     Board *board = MakeBoard();
 
     InitBoard(board);
 
-    int player = 1;
-    while(!BoardFull(board)) {
-        location = Move(board, player);
-        if(!location)
+    for(int row = 0; row < BOARD_ROWS; row++)
+    {
+        for(int col = 0; col < BOARD_COLS; col++)
         {
-            if(BoardWin(board, player))
-            {
-                printf("%d wins!\n", player);
-            } else {
-                printf("No one wins\n");
-            }
-            break;
+            PlaceBoard(board, 1, row, col);
         }
-        printf("%d moved to %d %d\n", player, location->row, location->col);
-        for(int row = 0; row < BOARD_ROWS; row++)
-        {
-            for(int col = 0; col < BOARD_COLS; col++)
-            {
-                printf("%c | ", board->board[row][col] + '0');
-            }
-            printf("\n");
-        }
-
-        player = player == 1 ? 2 : 1;
     }
+    location = Move(board, 2);
+    TEST_ASSERT_NULL(location);
+}
+
+TEST(ProductionCode, TestPlay1)
+{
+    Play(1);
+}
+
+TEST(ProductionCode, TestPlay2)
+{
+    Play(2);
 }

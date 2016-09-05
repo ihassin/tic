@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
 
 #ifndef TIC_BOARD_H
 #include "board.h"
@@ -52,78 +53,6 @@ int BoardFull(Board *board)
     return(1);
 }
 
-Location *GetWeight(Board *board)
-{
-    int max_weight = 0;
-    int last_row = -1;
-    int last_col = -1;
-
-    assert(board);
-    for(int row = 0; row < BOARD_ROWS; row++)
-    {
-        for(int col = 0; col < BOARD_COLS; col++)
-        {
-            if(board->weight[row][col] > max_weight)
-            {
-                max_weight = board->weight[row][col];
-                last_row = row;
-                last_col = col;
-            }
-        }
-    }
-    if(last_row == -1 || last_col == -1)
-    {
-        return(NULL);
-    }
-    Location *loc = malloc(sizeof(Location));
-    loc->row = last_row;
-    loc->col = last_col;
-    return(loc);
-}
-
-Location *Move(Board *board, int status)
-{
-    if(BoardFull(board) || BoardWin(board, 1) || BoardWin(board, 2)) {
-        return(NULL);
-    }
-
-    Location *location = AboutToWin(board, status);
-    if(location) {
-        PlaceBoard(board, 1, location->row, location->col);
-        return(location);
-    }
-
-    location = AboutToWin(board, status == 1 ? 2 : 1);
-    if(location) {
-        PlaceBoard(board, status, location->row, location->col);
-        return(location);
-    }
-
-    location = GetWeight(board);
-    if(location) {
-        PlaceBoard(board, status, location->row, location->col);
-        return(location);
-    }
-    return(NULL);
-}
-
-int PlaceBoard(Board *board, int status, int row, int col)
-{
-    assert(board);
-    assert(row >= 0);
-    assert(row < BOARD_ROWS);
-    assert(col >= 0);
-    assert(col < BOARD_COLS);
-
-    if(board->board[row][col] == 0)
-    {
-        board->board[row][col] = status;
-        board->weight[row][col] = 0;
-        return(1);
-    }
-    return(0);
-}
-
 int BoardWin(Board *board, int status)
 {
     assert(board);
@@ -171,6 +100,8 @@ Location *AboutToWin(Board *board, int status)
 
     for(int row = 0; row < BOARD_ROWS; row++)
     {
+        myCol = 0;
+        free = 0;
         for(int col = 0; col < BOARD_COLS; col++)
         {
             if(board->board[row][col] == status)
@@ -202,6 +133,8 @@ Location *AboutToWin(Board *board, int status)
     free = 0;
     for(int col = 0; col < BOARD_COLS; col++)
     {
+        myCol = 0;
+        free = 0;
         for(int row = 0; row < BOARD_ROWS; row++)
         {
             if(board->board[row][col] == status)
@@ -290,4 +223,100 @@ Location *AboutToWin(Board *board, int status)
     }
 
     return(NULL);
+}
+
+Location *GetWeight(Board *board)
+{
+    assert(board);
+
+    int max_weight = 0;
+    int last_row = -1;
+    int last_col = -1;
+
+    for(int row = 0; row < BOARD_ROWS; row++)
+    {
+        for(int col = 0; col < BOARD_COLS; col++)
+        {
+            if(board->weight[row][col] > max_weight)
+            {
+                max_weight = board->weight[row][col];
+                last_row = row;
+                last_col = col;
+            }
+        }
+    }
+    if(last_row == -1 || last_col == -1)
+    {
+        return(NULL);
+    }
+    Location *loc = malloc(sizeof(Location));
+    loc->row = last_row;
+    loc->col = last_col;
+    return(loc);
+}
+
+int PlaceBoard(Board *board, int status, int row, int col)
+{
+    assert(board);
+    assert((row >= 0) && (row < BOARD_ROWS));
+    assert((col >= 0) && (col < BOARD_COLS));
+
+    if(board->board[row][col] == 0)
+    {
+        board->board[row][col] = status;
+        board->weight[row][col] = 0;
+        return(1);
+    }
+    return(0);
+}
+
+Location *Move(Board *board, int status)
+{
+    Location *location = AboutToWin(board, status);
+    if(location) {
+        if(PlaceBoard(board, status, location->row, location->col)) {
+            return(location);
+        }
+    }
+
+    location = AboutToWin(board, (status == 1) ? 2 : 1);
+    if(location) {
+        if(PlaceBoard(board, status, location->row, location->col)) {
+            return(location);
+        }
+    }
+
+    location = GetWeight(board);
+    if (location) {
+        if(PlaceBoard(board, status, location->row, location->col) == 1)
+        {
+            return(location);
+        }
+    }
+    return(NULL);
+}
+
+void Play(int player)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+
+    while(!BoardFull(board)) {
+        for(int idx = 1; idx <= 2; idx++) {
+            if(BoardWin(board, idx)) {
+                printf("Player %d wins!\n", idx);
+                return;
+            }
+        }
+        player = (player == 1) ? 2 : 1;
+        location = Move(board, player);
+        if(location) {
+            printf("Player %d moved to (%d, %d)\n", player, location->row, location->col);
+        } else {
+            printf("No location for player %d\n", player);
+        }
+    }
+    printf("Stalemate!\n");
 }
