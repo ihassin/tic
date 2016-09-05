@@ -1,3 +1,3 @@
 #ifndef TIC_BOARD_H
-#include "Board.h"
+#include "board.h"
 #endif

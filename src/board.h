@@ -1,8 +1,6 @@
 #ifndef TIC_BOARD_H
 #define TIC_BOARD_H
 
-#include <mach/i386/boolean.h>
-
 #define BOARD_ROWS  3
 #define BOARD_COLS  3
 

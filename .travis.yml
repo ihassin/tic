@@ -6,4 +6,3 @@ compiler:
 
 script:
   - make
-  
