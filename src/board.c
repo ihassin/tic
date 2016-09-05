@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <assert.h>
+#include "unity_fixture_malloc_overrides.h"
 
 #ifndef TIC_BOARD_H
 #include "board.h"
@@ -276,6 +276,7 @@ Location *Move(Board *board, int player)
         if(PlaceBoard(board, player, location->row, location->col)) {
             return(location);
         }
+        free(location);
     }
 
     location = AboutToWin(board, (player == 1) ? 2 : 1);
@@ -283,6 +284,7 @@ Location *Move(Board *board, int player)
         if(PlaceBoard(board, player, location->row, location->col)) {
             return(location);
         }
+        free(location);
     }
 
     location = GetWeight(board);
@@ -291,6 +293,7 @@ Location *Move(Board *board, int player)
         {
             return(location);
         }
+        free(location);
     }
     return(NULL);
 }
@@ -298,19 +301,24 @@ Location *Move(Board *board, int player)
 int PlayProgrammatic(int player)
 {
     assert(player == 1 || player == 2);
-    Location *location = (Location *) 0x01;
 
     Board *board = MakeBoard();
 
     InitBoard(board);
 
-    while(!BoardFull(board) && location) {
+    while(!BoardFull(board)) {
         for(int idx = 1; idx <= 2; idx++) {
             if(BoardWin(board, idx)) {
+                free(board);
                 return(idx);
             }
         }
-        location = Move(board, (player == 1) ? 2 : 1);
+        Location *location = Move(board, (player == 1) ? 2 : 1);
+        free(location);
+        if(!location) {
+            break;
+        }
     }
+    free(board);
     return(0);
 }

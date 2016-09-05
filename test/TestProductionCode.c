@@ -19,6 +19,7 @@ TEST(ProductionCode, TestMakeBoard)
 {
     Board *board = MakeBoard();
     TEST_ASSERT_NOT_NULL(board);
+    free(board);
 }
 
 TEST(ProductionCode, TestInitBoard)
@@ -32,6 +33,7 @@ TEST(ProductionCode, TestInitBoard)
             TEST_ASSERT(board->board[rows][cols] == 0);
         }
     }
+    free(board);
 }
 
 TEST(ProductionCode, TestPlaceBoardVacant)
@@ -41,6 +43,7 @@ TEST(ProductionCode, TestPlaceBoardVacant)
     int retVal = PlaceBoard(board, 1, 0, 0);
     TEST_ASSERT_EQUAL_INT(1, retVal);
     TEST_ASSERT(board->board[0][0] == 1);
+    free(board);
 }
 
 TEST(ProductionCode, TestPlaceBoardTaken1)
@@ -50,6 +53,7 @@ TEST(ProductionCode, TestPlaceBoardTaken1)
     board->board[0][0] = 1;
     int retVal = PlaceBoard(board, 1, 0, 0);
     TEST_ASSERT_EQUAL_INT(0, retVal);
+    free(board);
 }
 
 TEST(ProductionCode, TestPlaceBoardTaken2)
@@ -59,6 +63,7 @@ TEST(ProductionCode, TestPlaceBoardTaken2)
     board->board[0][0] = 1;
     int retVal = PlaceBoard(board, 2, 0, 0);
     TEST_ASSERT_EQUAL_INT(0, retVal);
+    free(board);
 }
 
 TEST(ProductionCode, TestWinBoard)
@@ -78,6 +83,7 @@ TEST(ProductionCode, TestWinBoard)
     PlaceBoard(board, 1, 1, 2);
 
     TEST_ASSERT_TRUE(BoardWin(board, 1));
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWin)
@@ -92,6 +98,7 @@ TEST(ProductionCode, TestAboutToWin)
 
     location = AboutToWin(board, 1);
     TEST_ASSERT_NULL(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardRow0)
@@ -106,6 +113,8 @@ TEST(ProductionCode, TestAboutToWinBoardRow0)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 0) && (location->col == 2));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardRow1)
@@ -120,6 +129,8 @@ TEST(ProductionCode, TestAboutToWinBoardRow1)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 0) && (location->col == 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardRow2)
@@ -134,6 +145,8 @@ TEST(ProductionCode, TestAboutToWinBoardRow2)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 0) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCol0)
@@ -148,6 +161,8 @@ TEST(ProductionCode, TestAboutToWinBoardCol0)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCol1)
@@ -162,6 +177,8 @@ TEST(ProductionCode, TestAboutToWinBoardCol1)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCol2)
@@ -176,6 +193,8 @@ TEST(ProductionCode, TestAboutToWinBoardCol2)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 0) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCross1)
@@ -190,6 +209,8 @@ TEST(ProductionCode, TestAboutToWinBoardCross1)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 2));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCross2)
@@ -204,6 +225,8 @@ TEST(ProductionCode, TestAboutToWinBoardCross2)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCross3)
@@ -218,6 +241,8 @@ TEST(ProductionCode, TestAboutToWinBoardCross3)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCross4)
@@ -232,6 +257,8 @@ TEST(ProductionCode, TestAboutToWinBoardCross4)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 0) && (location->col == 2));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinBoardCross5)
@@ -246,6 +273,8 @@ TEST(ProductionCode, TestAboutToWinBoardCross5)
     location = AboutToWin(board, 1);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinFail1)
@@ -262,6 +291,8 @@ TEST(ProductionCode, TestAboutToWinFail1)
 
     location = AboutToWin(board, 1);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 2));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinFail2)
@@ -279,6 +310,8 @@ TEST(ProductionCode, TestAboutToWinFail2)
 
     location = AboutToWin(board, 2);
     TEST_ASSERT_NULL(location);
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestAboutToWinFail3)
@@ -297,6 +330,8 @@ TEST(ProductionCode, TestAboutToWinFail3)
     location = AboutToWin(board, 2);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestMove2Fail)
@@ -315,6 +350,8 @@ TEST(ProductionCode, TestMove2Fail)
     location = Move(board, 2);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 2));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestWeight1)
@@ -327,6 +364,8 @@ TEST(ProductionCode, TestWeight1)
     location = GetWeight(board);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 1) && (location->col == 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestWeight2)
@@ -346,6 +385,7 @@ TEST(ProductionCode, TestWeight2)
 
     location = GetWeight(board);
     TEST_ASSERT_NULL(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestWeightAfterPlacement)
@@ -359,6 +399,8 @@ TEST(ProductionCode, TestWeightAfterPlacement)
     location = GetWeight(board);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE(board->weight[1][1] == 0);
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestNextMove)
@@ -372,6 +414,8 @@ TEST(ProductionCode, TestNextMove)
     location = GetWeight(board);
     TEST_ASSERT_NOT_NULL(location);
     TEST_ASSERT_TRUE((location->row == 0) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestWinningMove)
@@ -386,6 +430,8 @@ TEST(ProductionCode, TestWinningMove)
     location = AboutToWin(board, 1);
     PlaceBoard(board, 1, location->row, location->col);
     TEST_ASSERT_TRUE(BoardWin(board, 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestMove1)
@@ -400,6 +446,8 @@ TEST(ProductionCode, TestMove1)
     location = Move(board, 1);
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 0));
     TEST_ASSERT_TRUE(BoardWin(board, 1));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestMove2)
@@ -413,6 +461,8 @@ TEST(ProductionCode, TestMove2)
 
     location = Move(board, 2);
     TEST_ASSERT_TRUE((location->row == 2) && (location->col == 0));
+    free(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestMove3)
@@ -431,6 +481,7 @@ TEST(ProductionCode, TestMove3)
     }
     location = Move(board, 2);
     TEST_ASSERT_NULL(location);
+    free(board);
 }
 
 TEST(ProductionCode, TestPlay1)

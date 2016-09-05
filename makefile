@@ -40,7 +40,7 @@ SRC_FILES1=\
   test/TestProductionCode.c \
   test/test_runners/TestProductionCode_Runner.c \
   test/test_runners/all_tests.c
-INC_DIRS=-Isrc -I$(UNITY_ROOT)
+INC_DIRS=-Isrc -I$(UNITY_ROOT)/
 SYMBOLS=
 
 all: default
