@@ -60,3 +60,87 @@ TEST(ProductionCode, TestWinBoard)
 
     TEST_ASSERT_TRUE(BoardWin(board, 1));
 }
+
+TEST(ProductionCode, TestAboutToWinBoardRow0)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 0, 1);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 0) && (location->col == 2));
+}
+
+TEST(ProductionCode, TestAboutToWinBoardRow1)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 0, 2);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 0) && (location->col == 1));
+}
+
+TEST(ProductionCode, TestAboutToWinBoardRow2)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 1);
+    PlaceBoard(board, 1, 0, 2);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 0) && (location->col == 0));
+}
+
+TEST(ProductionCode, TestAboutToWinBoardCol0)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 1, 0);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 2) && (location->col == 0));
+}
+
+TEST(ProductionCode, TestAboutToWinBoardCol1)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 0, 0);
+    PlaceBoard(board, 1, 2, 0);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 1) && (location->col == 0));
+}
+
+TEST(ProductionCode, TestAboutToWinBoardCol2)
+{
+    Location *location = NULL;
+    Board *board = MakeBoard();
+
+    InitBoard(board);
+    PlaceBoard(board, 1, 1, 0);
+    PlaceBoard(board, 1, 2, 0);
+
+    location = AboutToWin(board, 1);
+    TEST_ASSERT_NOT_NULL(location);
+    TEST_ASSERT_TRUE((location->row == 0) && (location->col == 0));
+}
