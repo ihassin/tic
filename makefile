@@ -36,7 +36,6 @@ TARGET1 = $(TARGET_BASE1)$(TARGET_EXTENSION)
 SRC_FILES1=\
   $(UNITY_ROOT)/unity.c \
   $(UNITY_ROOT)/unity_fixture.c \
-  src/ProductionCode.c \
   src/board.c \
   test/TestProductionCode.c \
   test/test_runners/TestProductionCode_Runner.c \

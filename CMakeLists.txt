@@ -12,9 +12,7 @@ set(SOURCE_FILES
     src/unity/unity_fixture_internals.h
     src/unity/unity_fixture_malloc_overrides.h
     src/unity/unity_internals.h
-    src/ProductionCode.c
-    src/ProductionCode.h
-    test/test_runners/all_tests.c
+        test/test_runners/all_tests.c
     test/test_runners/TestProductionCode_Runner.c
     test/TestProductionCode.c
     src/board.c
