@@ -148,5 +148,68 @@ Location *AboutToWin(Board *board, int status)
             }
         }
     }
+
+    myCol = 0;
+    int row = 0;
+    int col = 0;
+    int saved_row = 0;
+    int saved_col = 0;
+
+    while(row < BOARD_ROWS)
+    {
+        while(col < BOARD_COLS)
+        {
+            if(board->board[row][col] == status)
+            {
+                myCol++;
+            } else if(board->board[row][col] == 0)
+            {
+                saved_row = row;
+                saved_col = col;
+            }
+            row++;
+            col++;
+        }
+    }
+
+    if(myCol == 2)
+    {
+        Location *loc = malloc(sizeof(Location));
+        loc->row = saved_row;
+        loc->col = saved_col;
+        return(loc);
+    }
+
+    myCol = 0;
+    row = 0;
+    col = BOARD_COLS - 1;
+    saved_row = 0;
+    saved_col = 0;
+
+    while(row < BOARD_ROWS)
+    {
+        while(col >= 0)
+        {
+            if(board->board[row][col] == status)
+            {
+                myCol++;
+            } else if(board->board[row][col] == 0)
+            {
+                saved_row = row;
+                saved_col = col;
+            }
+            row++;
+            col--;
+        }
+    }
+
+    if(myCol == 2)
+    {
+        Location *loc = malloc(sizeof(Location));
+        loc->row = saved_row;
+        loc->col = saved_col;
+        return(loc);
+    }
+
     return(NULL);
 }
