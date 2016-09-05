@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <assert.h>
-#include <stdio.h>
 
 #ifndef TIC_BOARD_H
 #include "board.h"
