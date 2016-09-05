@@ -17,10 +17,10 @@ typedef struct _location {
 Board *MakeBoard(void);
 void InitBoard(Board *board);
 int BoardFull(Board *board);
-int PlaceBoard(Board *board, int status, int row, int col);
-int BoardWin(Board *board, int status);
-Location *Move(Board *board, int status);
-Location *AboutToWin(Board *board, int status);
+int PlaceBoard(Board *board, int player, int row, int col);
+int BoardWin(Board *board, int player);
+Location *Move(Board *board, int player);
+Location *AboutToWin(Board *board, int player);
 Location *GetWeight(Board *board);
 int PlayProgrammatic(int player);
 

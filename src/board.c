@@ -53,45 +53,45 @@ int BoardFull(Board *board)
     return(1);
 }
 
-int BoardWin(Board *board, int status)
+int BoardWin(Board *board, int player)
 {
     assert(board);
 
     return(
-        ((board->board[0][0] == status) &&
-        (board->board[0][1] == status) &&
-        (board->board[0][2] == status)) ||
+        ((board->board[0][0] == player) &&
+        (board->board[0][1] == player) &&
+        (board->board[0][2] == player)) ||
 
-        ((board->board[1][0] == status) &&
-        (board->board[1][1] == status) &&
-        (board->board[1][2] == status)) ||
+        ((board->board[1][0] == player) &&
+        (board->board[1][1] == player) &&
+        (board->board[1][2] == player)) ||
 
-        ((board->board[2][0] == status) &&
-        (board->board[2][1] == status) &&
-        (board->board[2][2] == status)) ||
+        ((board->board[2][0] == player) &&
+        (board->board[2][1] == player) &&
+        (board->board[2][2] == player)) ||
 
-        ((board->board[0][0] == status) &&
-        (board->board[1][0] == status) &&
-        (board->board[2][0] == status)) ||
+        ((board->board[0][0] == player) &&
+        (board->board[1][0] == player) &&
+        (board->board[2][0] == player)) ||
 
-        ((board->board[0][1] == status) &&
-        (board->board[1][1] == status) &&
-        (board->board[2][1] == status)) ||
+        ((board->board[0][1] == player) &&
+        (board->board[1][1] == player) &&
+        (board->board[2][1] == player)) ||
 
-        ((board->board[0][2] == status) &&
-        (board->board[1][2] == status) &&
-        (board->board[2][2] == status)) ||
+        ((board->board[0][2] == player) &&
+        (board->board[1][2] == player) &&
+        (board->board[2][2] == player)) ||
 
-        ((board->board[0][0] == status) &&
-        (board->board[1][1] == status) &&
-        (board->board[2][2] == status)) ||
+        ((board->board[0][0] == player) &&
+        (board->board[1][1] == player) &&
+        (board->board[2][2] == player)) ||
 
-        ((board->board[0][2] == status) &&
-        (board->board[1][1] == status) &&
-        (board->board[2][0] == status)));
+        ((board->board[0][2] == player) &&
+        (board->board[1][1] == player) &&
+        (board->board[2][0] == player)));
 }
 
-Location *AboutToWin(Board *board, int status)
+Location *AboutToWin(Board *board, int player)
 {
     assert(board);
 
@@ -104,7 +104,7 @@ Location *AboutToWin(Board *board, int status)
         free = 0;
         for(int col = 0; col < BOARD_COLS; col++)
         {
-            if(board->board[row][col] == status)
+            if(board->board[row][col] == player)
             {
                 myCol++;
             } else if(board->board[row][col] == 0) {
@@ -137,7 +137,7 @@ Location *AboutToWin(Board *board, int status)
         free = 0;
         for(int row = 0; row < BOARD_ROWS; row++)
         {
-            if(board->board[row][col] == status)
+            if(board->board[row][col] == player)
             {
                 myCol++;
             } else if(board->board[row][col] == 0) {
@@ -170,7 +170,7 @@ Location *AboutToWin(Board *board, int status)
     {
         while(col < BOARD_COLS)
         {
-            if(board->board[row][col] == status)
+            if(board->board[row][col] == player)
             {
                 myCol++;
             } else if(board->board[row][col] == 0)
@@ -201,7 +201,7 @@ Location *AboutToWin(Board *board, int status)
     {
         while(col >= 0)
         {
-            if(board->board[row][col] == status)
+            if(board->board[row][col] == player)
             {
                 myCol++;
             } else if(board->board[row][col] == 0)
@@ -255,7 +255,7 @@ Location *GetWeight(Board *board)
     return(loc);
 }
 
-int PlaceBoard(Board *board, int status, int row, int col)
+int PlaceBoard(Board *board, int player, int row, int col)
 {
     assert(board);
     assert((row >= 0) && (row < BOARD_ROWS));
@@ -263,32 +263,32 @@ int PlaceBoard(Board *board, int status, int row, int col)
 
     if(board->board[row][col] == 0)
     {
-        board->board[row][col] = status;
+        board->board[row][col] = player;
         board->weight[row][col] = 0;
         return(1);
     }
     return(0);
 }
 
-Location *Move(Board *board, int status)
+Location *Move(Board *board, int player)
 {
-    Location *location = AboutToWin(board, status);
+    Location *location = AboutToWin(board, player);
     if(location) {
-        if(PlaceBoard(board, status, location->row, location->col)) {
+        if(PlaceBoard(board, player, location->row, location->col)) {
             return(location);
         }
     }
 
-    location = AboutToWin(board, (status == 1) ? 2 : 1);
+    location = AboutToWin(board, (player == 1) ? 2 : 1);
     if(location) {
-        if(PlaceBoard(board, status, location->row, location->col)) {
+        if(PlaceBoard(board, player, location->row, location->col)) {
             return(location);
         }
     }
 
     location = GetWeight(board);
     if (location) {
-        if(PlaceBoard(board, status, location->row, location->col) == 1)
+        if(PlaceBoard(board, player, location->row, location->col) == 1)
         {
             return(location);
         }
