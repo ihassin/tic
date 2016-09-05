@@ -299,7 +299,8 @@ Location *Move(Board *board, int status)
 int PlayProgrammatic(int player)
 {
     assert(player == 1 || player == 2);
-    Location *location = 0x01;
+    Location *location = (Location *) 0x01;
+
     Board *board = MakeBoard();
 
     InitBoard(board);
