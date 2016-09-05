@@ -16,8 +16,11 @@ typedef struct _location {
 
 Board *MakeBoard(void);
 void InitBoard(Board *board);
+char *DumpBoard(Board *board);
+int BoardFull(Board *board);
 int PlaceBoard(Board *board, int status, int row, int col);
 int BoardWin(Board *board, int status);
+Location *Move(Board *board, int status);
 Location *AboutToWin(Board *board, int status);
 Location *GetWeight(Board *board);
 
