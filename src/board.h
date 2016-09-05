@@ -22,6 +22,6 @@ int BoardWin(Board *board, int status);
 Location *Move(Board *board, int status);
 Location *AboutToWin(Board *board, int status);
 Location *GetWeight(Board *board);
-void Play(int player);
+int PlayProgrammatic(int player);
 
 #endif //TIC_BOARD_H

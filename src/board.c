@@ -296,9 +296,9 @@ Location *Move(Board *board, int status)
     return(NULL);
 }
 
-void Play(int player)
+int PlayProgrammatic(int player)
 {
-    Location *location = NULL;
+    assert(player == 1 || player == 2);
     Board *board = MakeBoard();
 
     InitBoard(board);
@@ -306,17 +306,10 @@ void Play(int player)
     while(!BoardFull(board)) {
         for(int idx = 1; idx <= 2; idx++) {
             if(BoardWin(board, idx)) {
-                printf("Player %d wins!\n", idx);
-                return;
+                return(idx);
             }
         }
-        player = (player == 1) ? 2 : 1;
-        location = Move(board, player);
-        if(location) {
-            printf("Player %d moved to (%d, %d)\n", player, location->row, location->col);
-        } else {
-            printf("No location for player %d\n", player);
-        }
+        (void) Move(board, (player == 1) ? 2 : 1);
     }
-    printf("Stalemate!\n");
+    return(0);
 }

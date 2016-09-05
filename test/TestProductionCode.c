@@ -435,10 +435,12 @@ TEST(ProductionCode, TestMove3)
 
 TEST(ProductionCode, TestPlay1)
 {
-    Play(1);
+    int retVal = PlayProgrammatic(1);
+    TEST_ASSERT_TRUE(retVal == 0 || retVal == 1 || retVal == 2);
 }
 
 TEST(ProductionCode, TestPlay2)
 {
-    Play(2);
+    int retVal = PlayProgrammatic(2);
+    TEST_ASSERT_TRUE(retVal == 0 || retVal == 1 || retVal == 2);
 }
