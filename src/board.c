@@ -60,7 +60,7 @@ Location *GetWeight(Board *board)
     return(loc);
 }
 
-void PlaceBoard(Board *board, int status, int row, int col)
+int PlaceBoard(Board *board, int status, int row, int col)
 {
     assert(board);
     assert(row >= 0);
@@ -68,8 +68,13 @@ void PlaceBoard(Board *board, int status, int row, int col)
     assert(col >= 0);
     assert(col < BOARD_COLS);
 
-    board->board[row][col] = status;
-    board->weight[row][col] = 0;
+    if(board->board[row][col] == 0)
+    {
+        board->board[row][col] = status;
+        board->weight[row][col] = 0;
+        return(1);
+    }
+    return(0);
 }
 
 int BoardWin(Board *board, int status)

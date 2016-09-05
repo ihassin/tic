@@ -5,7 +5,8 @@ TEST_GROUP_RUNNER(ProductionCode)
 {
     RUN_TEST_CASE(ProductionCode, TestMakeBoard);
     RUN_TEST_CASE(ProductionCode, TestInitBoard);
-    RUN_TEST_CASE(ProductionCode, TestPlaceBoard);
+    RUN_TEST_CASE(ProductionCode, TestPlaceBoardVacant);
+    RUN_TEST_CASE(ProductionCode, TestPlaceBoardTaken);
     RUN_TEST_CASE(ProductionCode, TestWinBoard);
     RUN_TEST_CASE(ProductionCode, TestAboutToWinBoardRow0);
     RUN_TEST_CASE(ProductionCode, TestAboutToWinBoardRow1);

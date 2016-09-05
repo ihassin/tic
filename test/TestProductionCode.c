@@ -34,12 +34,22 @@ TEST(ProductionCode, TestInitBoard)
     }
 }
 
-TEST(ProductionCode, TestPlaceBoard)
+TEST(ProductionCode, TestPlaceBoardVacant)
 {
     Board *board = MakeBoard();
     InitBoard(board);
-    PlaceBoard(board, 1, 0, 0);
+    int retVal = PlaceBoard(board, 1, 0, 0);
+    TEST_ASSERT_EQUAL_INT(1, retVal);
     TEST_ASSERT(board->board[0][0] == 1);
+}
+
+TEST(ProductionCode, TestPlaceBoardTaken)
+{
+    Board *board = MakeBoard();
+    InitBoard(board);
+    board->board[0][0] = 1;
+    int retVal = PlaceBoard(board, 1, 0, 0);
+    TEST_ASSERT_EQUAL_INT(0, retVal);
 }
 
 TEST(ProductionCode, TestWinBoard)
