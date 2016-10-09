@@ -12,7 +12,8 @@ TARGET_EXTENSION=.out
 UNITY_ROOT=src/unity
 C_COMPILER=gcc
 
-CFLAGS = -std=c99
+CFLAGS = -g
+CFLAGS += -std=c99
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Werror 
