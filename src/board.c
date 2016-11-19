@@ -124,8 +124,6 @@ Location *AboutToWin(Board *board, int player)
                 return(loc);
             }
         }
-        myCol = 0;
-        free = 0;
     }
 
     myCol = 0;
